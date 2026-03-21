@@ -1,42 +1,31 @@
 package com.nguyenkhanhduy.restaurant_app.product;
 
-
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
-@Entity
-@Table(name="product")
-public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
+public class ProductDTO {
+
     private Integer productId;
-    @Column(name = "product_name")
     private String productName;
-    @Column(name = "product_price")
     private BigDecimal productPrice;
-    @Column(name = "product_description")
     private String productDescription;
-    @Column(name ="thumbnail_url")
-    private String productThumbnailUrl;
+    private String productThumnailUrl;
 
-    public Product() {
+
+
+    public ProductDTO() {
+
     }
 
-    public Product(String productName, BigDecimal productPrice, String productDescription, String productThumbnailUrl) {
-        this.productName = productName;
-        this.productPrice = productPrice;
-        this.productDescription = productDescription;
-        this.productThumbnailUrl = productThumbnailUrl;
-    }
-
-    public Product(Integer productId, String productName, BigDecimal productPrice, String productDescription, String productThumbnailUrl) {
+    public ProductDTO(Integer productId, String productName, BigDecimal productPrice, String productDescription, String productThumnailUrl) {
         this.productId = productId;
         this.productName = productName;
         this.productPrice = productPrice;
         this.productDescription = productDescription;
-        this.productThumbnailUrl = productThumbnailUrl;
+        this.productThumnailUrl = productThumnailUrl;
     }
 
     public Integer getProductId() {
@@ -71,11 +60,11 @@ public class Product {
         this.productDescription = productDescription;
     }
 
-    public String getProductThumbnailUrl() {
-        return productThumbnailUrl;
+    public String getProductThumnailUrl() {
+        return productThumnailUrl;
     }
 
-    public void setProductThumbnailUrl(String productThumbnailUrl) {
-        this.productThumbnailUrl = productThumbnailUrl;
+    public void setProductThumnailUrl(String productThumnailUrl) {
+        this.productThumnailUrl = productThumnailUrl;
     }
 }
