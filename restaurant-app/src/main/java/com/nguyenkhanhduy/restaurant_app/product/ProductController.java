@@ -3,6 +3,7 @@ package com.nguyenkhanhduy.restaurant_app.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,4 +24,10 @@ public class ProductController {
     public List<ProductDTO> GetProductList(){
         return productService.getProductList();
     }
+
+    @GetMapping("/{id}")
+    public ProductDTO getProductById(@PathVariable Integer id) {
+        return productService.getProductById(id);
+    }
+
 }

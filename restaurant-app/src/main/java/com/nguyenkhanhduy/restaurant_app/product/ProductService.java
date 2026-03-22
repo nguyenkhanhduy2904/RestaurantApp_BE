@@ -34,4 +34,10 @@ public class ProductService {
         );
     }
 
+    public ProductDTO getProductById(Integer id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+
+        return ProductService.convertToDTO(product);
+    }
 }
