@@ -21,6 +21,10 @@ public class Product {
     @Column(name ="thumbnail_url")
     private String productThumbnailUrl;
 
+    @Column(name = "category_id")
+    private Integer categoryId;
+
+
     public Product() {
     }
 
@@ -77,5 +81,13 @@ public class Product {
 
     public void setProductThumbnailUrl(String productThumbnailUrl) {
         this.productThumbnailUrl = productThumbnailUrl;
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 }

@@ -2,6 +2,7 @@ package com.nguyenkhanhduy.restaurant_app.product;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,14 @@ public class ProductController {
     @GetMapping("/{id}")
     public ProductDTO getProductById(@PathVariable Integer id) {
         return productService.getProductById(id);
+    }
+
+
+    @PostMapping()
+    public ResponseEntity<ProductDTO> postProduct(@RequestBody ProductDTO product){
+        ProductDTO productDTO =productService.postProduct(product);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(productDTO);
     }
 
     @DeleteMapping("/{id}")

@@ -30,7 +30,8 @@ public class ProductService {
                 product.getProductName(),
                 product.getProductPrice(),
                 product.getProductDescription(),
-                product.getProductThumbnailUrl()
+                product.getProductThumbnailUrl(),
+                product.getCategoryId()
         );
     }
 
@@ -46,5 +47,16 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
        productRepository.delete(product);
 
+    }
+
+    public ProductDTO postProduct(ProductDTO product) {
+        Product p = new Product();
+        p.setProductName(product.getProductName());
+        p.setProductPrice(product.getProductPrice());
+        p.setProductDescription(product.getProductDescription());
+        p.setProductThumbnailUrl(product.getProductThumnailUrl());
+        p.setCategoryId(product.getProductCategory());
+
+        return convertToDTO(productRepository.save(p));
     }
 }
