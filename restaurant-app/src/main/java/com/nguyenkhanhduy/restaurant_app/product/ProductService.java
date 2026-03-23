@@ -40,4 +40,11 @@ public class ProductService {
 
         return ProductService.convertToDTO(product);
     }
+
+    public void deleteProductById(Integer id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+       productRepository.delete(product);
+
+    }
 }
