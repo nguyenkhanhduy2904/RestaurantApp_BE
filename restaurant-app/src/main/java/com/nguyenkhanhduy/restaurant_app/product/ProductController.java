@@ -33,6 +33,7 @@ public class ProductController {
     @PostMapping()
     public ResponseEntity<ProductDTO> postProduct(@RequestBody ProductDTO product){
         ProductDTO productDTO =productService.postProduct(product);
+        System.out.println(product);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(productDTO);
     }

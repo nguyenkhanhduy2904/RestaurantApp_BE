@@ -3,7 +3,6 @@ package com.nguyenkhanhduy.restaurant_app.product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -54,7 +53,7 @@ public class ProductService {
         p.setProductName(product.getProductName());
         p.setProductPrice(product.getProductPrice());
         p.setProductDescription(product.getProductDescription());
-        p.setProductThumbnailUrl(product.getProductThumnailUrl());
+        p.setProductThumbnailUrl(product.getProductThumbnailUrl());
         p.setCategoryId(product.getProductCategory());
 
         return convertToDTO(productRepository.save(p));

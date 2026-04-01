@@ -1,10 +1,6 @@
 package com.nguyenkhanhduy.restaurant_app.product;
 
-import jakarta.persistence.Column;
-
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ProductDTO {
 
@@ -12,8 +8,7 @@ public class ProductDTO {
     private String productName;
     private BigDecimal productPrice;
     private String productDescription;
-    private String productThumnailUrl;
-
+    private String productThumbnailUrl;
     private Integer productCategory;
 
 
@@ -26,7 +21,7 @@ public class ProductDTO {
         this.productName = productName;
         this.productPrice = productPrice;
         this.productDescription = productDescription;
-        this.productThumnailUrl = productThumnailUrl;
+        this.productThumbnailUrl = productThumnailUrl;
         this.productCategory = productCategory;
     }
 
@@ -62,12 +57,12 @@ public class ProductDTO {
         this.productDescription = productDescription;
     }
 
-    public String getProductThumnailUrl() {
-        return productThumnailUrl;
+    public String getProductThumbnailUrl() {
+        return productThumbnailUrl;
     }
 
-    public void setProductThumnailUrl(String productThumnailUrl) {
-        this.productThumnailUrl = productThumnailUrl;
+    public void setProductThumbnailUrl(String productThumbnailUrl) {
+        this.productThumbnailUrl = productThumbnailUrl;
     }
 
     public Integer getProductCategory() {
