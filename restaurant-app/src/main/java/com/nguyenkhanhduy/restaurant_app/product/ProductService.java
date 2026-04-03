@@ -58,4 +58,21 @@ public class ProductService {
 
         return convertToDTO(productRepository.save(p));
     }
+
+    public ProductDTO updateProduct(int id, ProductDTO product) {
+
+        if(id != product.getProductId()){
+            throw new IllegalArgumentException("ID given in the path and ID of this product are not match.");
+        }
+
+        Product p = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found with id: " + product.getProductId()));
+
+        p.setProductName(product.getProductName());
+        p.setProductPrice(product.getProductPrice());
+        p.setCategoryId(product.getProductCategory());
+        p.setProductDescription(product.getProductDescription());
+        p.setProductThumbnailUrl(product.getProductThumbnailUrl());
+
+        return convertToDTO(productRepository.save(p));
+    }
 }
