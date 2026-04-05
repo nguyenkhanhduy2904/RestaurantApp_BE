@@ -1,6 +1,7 @@
 package com.nguyenkhanhduy.restaurant_app.product;
 
 
+import com.nguyenkhanhduy.restaurant_app.category.Category;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -21,8 +22,13 @@ public class Product {
     @Column(name ="thumbnail_url")
     private String productThumbnailUrl;
 
-    @Column(name = "category_id")
-    private Integer categoryId;
+//    @Column(name = "category_id")
+//    private Integer categoryId;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id") // FK column in DB
+    private Category category;
+
 
 
     public Product() {
@@ -83,11 +89,20 @@ public class Product {
         this.productThumbnailUrl = productThumbnailUrl;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
+//    public Integer getCategoryId() {
+//        return categoryId;
+//    }
+//
+//    public void setCategoryId(Integer categoryId) {
+//        this.categoryId = categoryId;
+//    }
+
+
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

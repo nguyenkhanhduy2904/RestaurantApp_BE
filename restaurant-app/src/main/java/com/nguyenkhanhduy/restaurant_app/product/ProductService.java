@@ -1,5 +1,7 @@
 package com.nguyenkhanhduy.restaurant_app.product;
 
+import com.nguyenkhanhduy.restaurant_app.category.Category;
+import com.nguyenkhanhduy.restaurant_app.category.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +13,12 @@ public class ProductService {
 
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public List<ProductDTO> getProductList() {
@@ -30,7 +34,7 @@ public class ProductService {
                 product.getProductPrice(),
                 product.getProductDescription(),
                 product.getProductThumbnailUrl(),
-                product.getCategoryId()
+                product.getCategory().getCategoryId()
         );
     }
 
@@ -54,7 +58,11 @@ public class ProductService {
         p.setProductPrice(product.getProductPrice());
         p.setProductDescription(product.getProductDescription());
         p.setProductThumbnailUrl(product.getProductThumbnailUrl());
-        p.setCategoryId(product.getProductCategory());
+
+        Category category = categoryRepository.findById(product.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        p.setCategory(category);
 
         return convertToDTO(productRepository.save(p));
     }
@@ -69,7 +77,11 @@ public class ProductService {
 
         p.setProductName(product.getProductName());
         p.setProductPrice(product.getProductPrice());
-        p.setCategoryId(product.getProductCategory());
+
+        Category category = categoryRepository.findById(product.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        p.setCategory(category);
         p.setProductDescription(product.getProductDescription());
         p.setProductThumbnailUrl(product.getProductThumbnailUrl());
 

@@ -9,20 +9,20 @@ public class ProductDTO {
     private BigDecimal productPrice;
     private String productDescription;
     private String productThumbnailUrl;
-    private Integer productCategory;
+    private Integer categoryId;
 
 
     public ProductDTO() {
 
     }
 
-    public ProductDTO(Integer productId, String productName, BigDecimal productPrice, String productDescription, String productThumnailUrl, Integer productCategory) {
+    public ProductDTO(Integer productId, String productName, BigDecimal productPrice, String productDescription, String productThumnailUrl, Integer categoryId) {
         this.productId = productId;
         this.productName = productName;
         this.productPrice = productPrice;
         this.productDescription = productDescription;
         this.productThumbnailUrl = productThumnailUrl;
-        this.productCategory = productCategory;
+        this.categoryId = categoryId;
     }
 
     public Integer getProductId() {
@@ -65,11 +65,11 @@ public class ProductDTO {
         this.productThumbnailUrl = productThumbnailUrl;
     }
 
-    public Integer getProductCategory() {
-        return productCategory;
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
-    public void setProductCategory(Integer productCategory) {
-        this.productCategory = productCategory;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 }
