@@ -1,5 +1,6 @@
 package com.nguyenkhanhduy.restaurant_app.category;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,5 +40,19 @@ public class CategoryService {
 
         categoryRepository.save(c);
         return convertToCategoryDTO(c);
+    }
+
+    public void deleteCategory(Integer id) {
+        categoryRepository.deleteById(id);
+    }
+
+    public CategoryDTO updateCategory(Integer id, CategoryDTO categoryDTO) {
+        if(id != categoryDTO.getCategoryId()){
+            throw new IllegalArgumentException("ID given in this path and this category wasnt match");
+        }
+        Category c = categoryRepository.findById(id).orElseThrow(()-> new RuntimeException("Cannot find category id"));
+        c.setCategoryName(categoryDTO.getCategoryName());
+
+        return convertToCategoryDTO(categoryRepository.save(c));
     }
 }
