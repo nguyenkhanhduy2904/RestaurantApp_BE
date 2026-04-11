@@ -3,6 +3,7 @@ package com.nguyenkhanhduy.restaurant_app.Auth;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.nguyenkhanhduy.restaurant_app.UserProfile.UserProfile;
 import com.nguyenkhanhduy.restaurant_app.UserProfile.UserProfileRepository;
+import com.nguyenkhanhduy.restaurant_app.UserProfile.UserProfileService;
 import com.nguyenkhanhduy.restaurant_app.Utils.GoogleTokenVerifier;
 import com.nguyenkhanhduy.restaurant_app.Utils.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,13 @@ public class AuthService {
 
     private final AuthRepository authRepository;
     private final UserProfileRepository userProfileRepository;
+    private final UserProfileService userProfileService;
 
     @Autowired
-    public AuthService(AuthRepository authRepository, UserProfileRepository userProfileRepository) {
+    public AuthService(AuthRepository authRepository, UserProfileRepository userProfileRepository, UserProfileService userProfileService) {
         this.authRepository = authRepository;
         this.userProfileRepository = userProfileRepository;
+        this.userProfileService = userProfileService;
     }
 
 
@@ -56,9 +59,11 @@ public class AuthService {
         //get that id
 
 
-        UserProfile profile = new UserProfile();
-        profile.setUserEmail(email);
-        UserProfile savedProfile = userProfileRepository.save(profile);
+//        UserProfile profile = new UserProfile();
+//        profile.setUserEmail(email);
+//        UserProfile savedProfile = userProfileRepository.save(profile);
+
+        UserProfile savedProfile = userProfileService.createUserForGoogle(email);
 
 
         UserSignin signin = new UserSignin();
@@ -77,5 +82,32 @@ public class AuthService {
 
 
 
+    }
+
+    public UserProfile signUpAsLocal(LocalAuth data) {
+        UserSignin userSignin = authRepository.findByUserName(data.getUsername()).orElse(null);
+        if(userSignin!=null){
+            throw new RuntimeException("Username already in used");
+        }
+        else{
+//            UserProfile n = new UserProfile();
+//            n.setUserName(data.getUsername());
+//            n.setUserRole("CUSTOMER");
+//
+//            UserProfile saved = userProfileRepository.save(n);
+
+            UserProfile saved = userProfileService.createUserForLocal(data);
+
+            UserSignin signin = new UserSignin();
+            signin.setAuthType("LOCAL");
+            signin.setUserName(data.getUsername());
+            signin.setPasswordHashed(PasswordUtil.hash(data.getPassword()));
+
+            signin.setUserProfile(saved);
+
+            authRepository.save(signin);
+            return saved;
+
+        }
     }
 }

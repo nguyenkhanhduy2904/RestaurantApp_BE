@@ -18,6 +18,8 @@ public class UserProfile {
     private String userPhone;
     @Column(name = "user_email")
     private String userEmail;
+    @Column(name = "user_role")
+    private String userRole;
 
     public UserProfile() {
     }
@@ -60,5 +62,13 @@ public class UserProfile {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 }

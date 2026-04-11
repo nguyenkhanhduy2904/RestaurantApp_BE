@@ -26,9 +26,16 @@ public class AuthController {
     @PostMapping("/local")
     public ResponseEntity<UserProfile> signInAsLocal(@RequestBody LocalAuth data){
         UserProfile userProfile = authService.authenticateLocalUser(data);
-
         return ResponseEntity.status(HttpStatus.OK).body(userProfile);
     }
+
+    @PostMapping("/local/signup")
+    public ResponseEntity<UserProfile> signUpAsLocal(@RequestBody LocalAuth data){
+        UserProfile userProfile = authService.signUpAsLocal(data);
+        return ResponseEntity.status(HttpStatus.OK).body(userProfile);
+    }
+
+
 
     @PostMapping("/google")
     public ResponseEntity<UserProfile> signInAsGoogle(@RequestBody GoogleAuth data){
