@@ -7,7 +7,9 @@ import com.nguyenkhanhduy.restaurant_app.UserProfile.UserProfileService;
 import com.nguyenkhanhduy.restaurant_app.Utils.GoogleTokenVerifier;
 import com.nguyenkhanhduy.restaurant_app.Utils.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class AuthService {
@@ -25,7 +27,7 @@ public class AuthService {
 
 
     public UserProfile authenticateLocalUser(LocalAuth data) {
-        UserSignin userSignin = authRepository.findByUserName(data.getUsername()).orElseThrow(()-> new RuntimeException("User not found"));
+        UserSignin userSignin = authRepository.findByUserName(data.getUsername()).orElseThrow(()-> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials"));
 
         Integer id = userSignin.getUserProfile().getUserId();
 
@@ -38,7 +40,7 @@ public class AuthService {
             return userProfile;
         }
         else {
-            throw new RuntimeException("Wrong password");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
         }
     }
 

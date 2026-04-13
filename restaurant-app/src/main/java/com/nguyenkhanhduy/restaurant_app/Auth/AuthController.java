@@ -1,6 +1,7 @@
 package com.nguyenkhanhduy.restaurant_app.Auth;
 
 
+import com.nguyenkhanhduy.restaurant_app.Response.ApiResponse;
 import com.nguyenkhanhduy.restaurant_app.UserProfile.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,23 +25,23 @@ public class AuthController {
 
 
     @PostMapping("/local")
-    public ResponseEntity<UserProfile> signInAsLocal(@RequestBody LocalAuth data){
+    public ResponseEntity<ApiResponse<UserProfile>> signInAsLocal(@RequestBody LocalAuth data){
         UserProfile userProfile = authService.authenticateLocalUser(data);
-        return ResponseEntity.status(HttpStatus.OK).body(userProfile);
+        return ResponseEntity.ok(ApiResponse.success(userProfile));
     }
 
     @PostMapping("/local/signup")
-    public ResponseEntity<UserProfile> signUpAsLocal(@RequestBody LocalAuth data){
+    public ResponseEntity<ApiResponse<UserProfile>> signUpAsLocal(@RequestBody LocalAuth data){
         UserProfile userProfile = authService.signUpAsLocal(data);
-        return ResponseEntity.status(HttpStatus.OK).body(userProfile);
+        return ResponseEntity.ok(ApiResponse.success(userProfile));
     }
 
 
 
     @PostMapping("/google")
-    public ResponseEntity<UserProfile> signInAsGoogle(@RequestBody GoogleAuth data){
+    public ResponseEntity<ApiResponse<UserProfile>> signInAsGoogle(@RequestBody GoogleAuth data){
         UserProfile userProfile = authService.authenticateGoogleUser(data);
-        return ResponseEntity.status(HttpStatus.OK).body(userProfile);
+        return ResponseEntity.ok(ApiResponse.success(userProfile));
     }
 
 

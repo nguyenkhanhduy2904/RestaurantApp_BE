@@ -1,6 +1,7 @@
 package com.nguyenkhanhduy.restaurant_app.UserProfile;
 
 
+import com.nguyenkhanhduy.restaurant_app.Response.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -21,11 +22,10 @@ public class UserProfileController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserProfile> getUserById(@PathVariable Integer id){
+    public ResponseEntity<ApiResponse<UserProfile>> getUserById(@PathVariable Integer id){
 
         UserProfile userProfile = userProfileService.getUserById(id);
-
-        return ResponseEntity.status(HttpStatus.OK).body(userProfile);
+        return ResponseEntity.ok(ApiResponse.success(userProfile));
     }
 
 
