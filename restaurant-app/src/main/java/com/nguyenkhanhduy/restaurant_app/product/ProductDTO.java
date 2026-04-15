@@ -10,20 +10,38 @@ public class ProductDTO {
     private String productDescription;
     private String productThumbnailUrl;
     private Integer categoryId;
+    private String status;
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public ProductDTO() {
 
     }
 
-    public ProductDTO(Integer productId, String productName, BigDecimal productPrice, String productDescription, String productThumnailUrl, Integer categoryId) {
+    public ProductDTO(Integer productId, String productName, BigDecimal productPrice, String productDescription, String productThumbnailUrl, Integer categoryId, String status) {
         this.productId = productId;
         this.productName = productName;
         this.productPrice = productPrice;
         this.productDescription = productDescription;
-        this.productThumbnailUrl = productThumnailUrl;
+        this.productThumbnailUrl = productThumbnailUrl;
         this.categoryId = categoryId;
+        this.status = status;
     }
+
+//    public ProductDTO(Integer productId, String productName, BigDecimal productPrice, String productDescription, String productThumnailUrl, Integer categoryId) {
+//        this.productId = productId;
+//        this.productName = productName;
+//        this.productPrice = productPrice;
+//        this.productDescription = productDescription;
+//        this.productThumbnailUrl = productThumnailUrl;
+//        this.categoryId = categoryId;
+//    }
 
     public Integer getProductId() {
         return productId;

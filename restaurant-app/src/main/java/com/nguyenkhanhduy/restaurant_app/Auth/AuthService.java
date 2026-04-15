@@ -50,22 +50,18 @@ public class AuthService {
 
         String sub = payload.getSubject();
         String email = payload.getEmail();
+        String name = (String) payload.get("name");
+        // fallback if name is null
+        if (name == null || name.isEmpty()) {
+            name = email.split("@")[0];
+        }
 
         UserSignin userSignin = authRepository.findByProviderId(sub).orElse(null);
 
         if(userSignin!=null){
             return userProfileRepository.findById(userSignin.getUserProfile().getUserId()).orElseThrow(()-> new RuntimeException("profile not found"));
         }
-
-        //Create new user profile
-        //get that id
-
-
-//        UserProfile profile = new UserProfile();
-//        profile.setUserEmail(email);
-//        UserProfile savedProfile = userProfileRepository.save(profile);
-
-        UserProfile savedProfile = userProfileService.createUserForGoogle(email);
+        UserProfile savedProfile = userProfileService.createUserForGoogle(email, name);
 
 
         UserSignin signin = new UserSignin();
@@ -79,10 +75,6 @@ public class AuthService {
 
 
         return savedProfile;
-
-
-
-
 
     }
 

@@ -20,8 +20,18 @@ public class UserProfile {
     private String userEmail;
     @Column(name = "user_role")
     private String userRole;
+    @Column(name = "user_status")
+    private String status;
 
     public UserProfile() {
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Integer getUserId() {

@@ -21,8 +21,17 @@ public class Product {
     private String productDescription;
     @Column(name ="thumbnail_url")
     private String productThumbnailUrl;
+    @Column(name ="product_status")
+    private String status;
 
-//    @Column(name = "category_id")
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    //    @Column(name = "category_id")
 //    private Integer categoryId;
 
     @ManyToOne

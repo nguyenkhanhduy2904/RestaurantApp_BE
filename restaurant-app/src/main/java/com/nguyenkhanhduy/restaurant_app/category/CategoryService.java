@@ -20,7 +20,8 @@ public class CategoryService {
     public static CategoryDTO convertToCategoryDTO(Category category){
         return new CategoryDTO(
                 category.getCategoryId(),
-                category.getCategoryName());
+                category.getCategoryName(),
+                category.getStatus());
     }
 
     public List<CategoryDTO> getCategoryList() {

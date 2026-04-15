@@ -9,7 +9,7 @@ import java.util.Collections;
 
 public class GoogleTokenVerifier {
 
-    private static final String CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID";//FIXME: need change to real id
+    private static final String CLIENT_ID = "1025657299481-drpdf0f8s7ndgeffb9r2ona2uo2ju4ud.apps.googleusercontent.com";
 
     private static final GoogleIdTokenVerifier verifier =
             new GoogleIdTokenVerifier.Builder(

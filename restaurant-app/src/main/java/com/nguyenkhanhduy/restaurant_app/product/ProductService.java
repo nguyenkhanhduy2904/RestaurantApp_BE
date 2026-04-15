@@ -34,7 +34,8 @@ public class ProductService {
                 product.getProductPrice(),
                 product.getProductDescription(),
                 product.getProductThumbnailUrl(),
-                product.getCategory().getCategoryId()
+                product.getCategory().getCategoryId(),
+                product.getStatus()
         );
     }
 

@@ -34,10 +34,11 @@ public class UserProfileService {
         return saved;
     }
 
-    public UserProfile createUserForGoogle(String email){
+    public UserProfile createUserForGoogle(String email, String name){
 
         UserProfile profile = new UserProfile();
         profile.setUserEmail(email);
+        profile.setUserName(name);
         UserProfile savedProfile = userProfileRepository.save(profile);
         return savedProfile;
     }
