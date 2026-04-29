@@ -75,16 +75,11 @@ public class FcmService {
         sendMessage(
                 fcmToken,
                 new Notification("ORDER_UPDATE", "Your order have been updated"),
-                Map.of("type", "ORDER_UPDATED")
+                Map.of(
+                        "title", "Order Updated",
+                        "body", "Your Order have been updated",
+                        "type", "ORDER_UPDATED"
+                )
         );
-//        sendMessage(
-//                fcmToken,
-//                null,
-//                Map.of(
-//                        "title", "Order Updated",
-//                        "body", "Your Order have been updated",
-//                        "type", "ORDER_UPDATED"
-//                )
-//        );
     }
 }
