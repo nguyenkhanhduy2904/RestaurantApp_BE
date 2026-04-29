@@ -81,4 +81,6 @@ public class UserProfile {
     public void setUserRole(String userRole) {
         this.userRole = userRole;
     }
+
+
 }

@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "api/v1/user-profile")
 public class UserProfileController {
@@ -26,6 +28,21 @@ public class UserProfileController {
 
         UserProfile userProfile = userProfileService.getUserById(id);
         return ResponseEntity.ok(ApiResponse.success(userProfile));
+    }
+    @GetMapping()
+    public ResponseEntity<ApiResponse<List<UserProfile>>> getAllUserProfile(){
+
+        List<UserProfile> ls = userProfileService.getAllUserProfile();
+        return ResponseEntity.ok(ApiResponse.success(ls));
+
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<UserProfile>> updateUserProfile(@PathVariable Integer id,@RequestBody UserProfile userProfile){
+
+        UserProfile pro5 = userProfileService.updateUserProfile(id, userProfile);
+
+        return ResponseEntity.ok(ApiResponse.success(pro5));
+
     }
 
 

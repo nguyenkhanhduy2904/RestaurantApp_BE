@@ -1,6 +1,7 @@
 package com.nguyenkhanhduy.restaurant_app.Auth;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.nguyenkhanhduy.restaurant_app.DeviceToken.DeviceTokenService;
 import com.nguyenkhanhduy.restaurant_app.UserProfile.UserProfile;
 import com.nguyenkhanhduy.restaurant_app.UserProfile.UserProfileRepository;
 import com.nguyenkhanhduy.restaurant_app.UserProfile.UserProfileService;
@@ -17,12 +18,14 @@ public class AuthService {
     private final AuthRepository authRepository;
     private final UserProfileRepository userProfileRepository;
     private final UserProfileService userProfileService;
+    private final DeviceTokenService deviceTokenService;
 
     @Autowired
-    public AuthService(AuthRepository authRepository, UserProfileRepository userProfileRepository, UserProfileService userProfileService) {
+    public AuthService(AuthRepository authRepository, UserProfileRepository userProfileRepository, UserProfileService userProfileService, DeviceTokenService deviceTokenService) {
         this.authRepository = authRepository;
         this.userProfileRepository = userProfileRepository;
         this.userProfileService = userProfileService;
+        this.deviceTokenService = deviceTokenService;
     }
 
 
@@ -37,6 +40,9 @@ public class AuthService {
 
         if(ok){
             UserProfile userProfile = userProfileRepository.findById(id).orElseThrow(()->new RuntimeException("Cant find user profile"));
+
+
+
             return userProfile;
         }
         else {
@@ -81,7 +87,10 @@ public class AuthService {
     public UserProfile signUpAsLocal(LocalAuth data) {
         UserSignin userSignin = authRepository.findByUserName(data.getUsername()).orElse(null);
         if(userSignin!=null){
-            throw new RuntimeException("Username already in used");
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Username already exists"
+            );
         }
         else{
 //            UserProfile n = new UserProfile();
