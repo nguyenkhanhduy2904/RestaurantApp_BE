@@ -1,10 +1,13 @@
 package com.nguyenkhanhduy.restaurant_app.Utils;
 
 import com.google.auth.oauth2.GoogleCredentials;
+import com.nguyenkhanhduy.restaurant_app.DeviceToken.DeviceTokenService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.ByteArrayInputStream;
@@ -17,18 +20,33 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class FcmService {
+    private final DeviceTokenService deviceTokenService;
+
+    @Autowired
+    public FcmService(DeviceTokenService deviceTokenService) {
+        this.deviceTokenService = deviceTokenService;
+    }
 
 
     public String getAccessToken() throws IOException {
 
+        InputStream serviceAccount;
+
         String json = System.getenv("FIREBASE_CONFIG_JSON");
 
-        if (json == null || json.isEmpty()) {
-            throw new RuntimeException("FIREBASE_CONFIG_JSON env variable not set");
-        }
+        if (json != null && !json.isEmpty()) {
+            // Cloud / production
+            serviceAccount = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
+        } else {
+            // Local dev fallback (classpath resource)
+            serviceAccount = getClass()
+                    .getClassLoader()
+                    .getResourceAsStream("firebase-service-account.json");
 
-        InputStream serviceAccount =
-                new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
+            if (serviceAccount == null) {
+                throw new RuntimeException("firebase-service-account.json not found in resources");
+            }
+        }
 
         GoogleCredentials googleCredentials = GoogleCredentials
                 .fromStream(serviceAccount)
@@ -51,13 +69,8 @@ public class FcmService {
             headers.setBearerAuth(accessToken);
             headers.setContentType(MediaType.APPLICATION_JSON);
 
-            ObjectMapper mapper = new ObjectMapper();
-
             Message message = new Message(fcmToken, notification, data);
             FcmRequest requestBody = new FcmRequest(message);
-
-            String json = mapper.writeValueAsString(requestBody);
-            System.out.println("FCM JSON: " + json);
 
             HttpEntity<FcmRequest> request = new HttpEntity<>(requestBody, headers);
 
@@ -65,9 +78,24 @@ public class FcmService {
 
             System.out.println("FCM response: " + response);
 
+        } catch (HttpClientErrorException e) {
+
+            String body = e.getResponseBodyAsString();
+            System.err.println("FCM failed: " + body);
+
+            // 🔥 IMPORTANT: handle invalid token
+            if (e.getStatusCode().value() == 404 ||
+                    body.contains("UNREGISTERED")) {
+
+                System.out.println("Deleting invalid FCM token: " + fcmToken);
+
+                deviceTokenService.deleteToken(fcmToken);
+            }
+
+            // DO NOT rethrow → order must continue
+
         } catch (IOException e) {
-            System.err.println("FCM send failed: " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("FCM auth failed: " + e.getMessage());
         }
     }
 

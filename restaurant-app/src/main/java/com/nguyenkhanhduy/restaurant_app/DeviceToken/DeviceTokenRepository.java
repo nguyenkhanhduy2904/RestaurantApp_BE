@@ -10,5 +10,6 @@ public interface DeviceTokenRepository extends JpaRepository<DeviceToken, Intege
 
     void deleteByFcmToken(String fcmToken);
 
+
     List<DeviceToken> findByUserProfile_UserId(Integer userId);
 }

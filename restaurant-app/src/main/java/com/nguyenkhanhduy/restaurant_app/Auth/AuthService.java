@@ -10,6 +10,7 @@ import com.nguyenkhanhduy.restaurant_app.Utils.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
@@ -112,5 +113,25 @@ public class AuthService {
             return saved;
 
         }
+    }
+
+    @Transactional
+    public String changePassword(ChangePasswordRequest request) {
+        UserSignin existedSignin = authRepository.findByUserName(request.getUserNameLogin()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "User name login not found"));
+
+        System.out.println(existedSignin.toString());
+        if(!"LOCAL".equals(existedSignin.getAuthType())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password change can only allowed to LOCAL account");
+        }
+
+        if (!PasswordUtil.matches(request.getOldPass(), existedSignin.getPasswordHashed())) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "Old password is incorrect"
+            );
+        }
+        existedSignin.setPasswordHashed(PasswordUtil.hash(request.getNewPass()));
+        return "Password changed successfully";
+
     }
 }

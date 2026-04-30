@@ -6,10 +6,7 @@ import com.nguyenkhanhduy.restaurant_app.UserProfile.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "api/v1/auth")
@@ -42,6 +39,13 @@ public class AuthController {
     public ResponseEntity<ApiResponse<UserProfile>> signInAsGoogle(@RequestBody GoogleAuth data){
         UserProfile userProfile = authService.authenticateGoogleUser(data);
         return ResponseEntity.ok(ApiResponse.success(userProfile));
+    }
+
+    @PostMapping("/local/change-password")
+    public ResponseEntity<ApiResponse<String>> changePassword(@RequestBody ChangePasswordRequest request){
+        String result = authService.changePassword(request);
+        return ResponseEntity.ok(ApiResponse.success(result));
+
     }
 
 

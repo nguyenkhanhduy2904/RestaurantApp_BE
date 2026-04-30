@@ -5,6 +5,7 @@ import com.nguyenkhanhduy.restaurant_app.UserProfile.UserProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -55,4 +56,16 @@ public class DeviceTokenService {
 
         return tokens;
     }
+
+
+    @Transactional
+    public void deleteToken(String token) {
+        DeviceToken existedToken = deviceTokenRepository.findByFcmToken(token).orElse(null);
+        if(existedToken == null){
+            throw new RuntimeException("Token not found");
+        }
+        deviceTokenRepository.deleteByFcmToken(token);
+    }
+
+
 }

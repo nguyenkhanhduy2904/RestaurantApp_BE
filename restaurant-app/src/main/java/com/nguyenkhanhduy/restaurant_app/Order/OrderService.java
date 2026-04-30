@@ -154,9 +154,23 @@ public class OrderService {
         UserProfile existedUser = userProfileRepository.findById(orderStatusRequest.getUserId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
 
-        existedOrder.setPaymentMethod(orderStatusRequest.getPaymentMethod());
-        existedOrder.setPaymentStatus(orderStatusRequest.getPaymentStatus());
-        existedOrder.setOrderStatus(orderStatusRequest.getOrderStatus());
+        if(!isBlank(orderStatusRequest.getOrderStatus())){
+            existedOrder.setOrderStatus(orderStatusRequest.getOrderStatus());
+        }
+        if(!isBlank(orderStatusRequest.getPaymentStatus())){
+            existedOrder.setPaymentStatus(orderStatusRequest.getPaymentStatus());
+        }
+        if(!isBlank(orderStatusRequest.getPaymentMethod())){
+            existedOrder.setPaymentMethod(orderStatusRequest.getPaymentMethod());
+        }
+        if("CANCELED".equals(orderStatusRequest.getOrderStatus())){
+            existedOrder.setPaymentStatus("CANCELED");
+        }
+        if("CANCELED".equals(orderStatusRequest.getPaymentStatus())){
+            existedOrder.setOrderStatus("CANCELED");
+        }
+
+
         Order savedOrder = orderRepository.save(existedOrder);
 
         //find all the fcm device token of this user
@@ -166,5 +180,9 @@ public class OrderService {
             fcmService.sendUpdateOrderNotification(token);
         }
         return convertToResponse(savedOrder);
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
     }
 }

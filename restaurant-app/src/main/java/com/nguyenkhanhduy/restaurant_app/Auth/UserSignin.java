@@ -74,4 +74,16 @@ public class UserSignin {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    @Override
+    public String toString() {
+        return "UserSignin{" +
+                "id=" + id +
+                ", userProfile=" + userProfile +
+                ", providerId='" + providerId + '\'' +
+                ", authType='" + authType + '\'' +
+                ", userName='" + userName + '\'' +
+                ", passwordHashed='" + passwordHashed + '\'' +
+                '}';
+    }
 }
