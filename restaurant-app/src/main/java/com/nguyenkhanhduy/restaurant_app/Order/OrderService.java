@@ -100,6 +100,18 @@ public class OrderService {
         Order savedOrder = orderRepository.findById(order.getOrderId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
         savedOrder.getOrderDetailList().size();
+
+        List<UserProfile> admins = userProfileRepository.findByUserRole("ADMIN");
+        List<String> adminTokens = new ArrayList<>();
+
+        for (UserProfile admin : admins) {
+            List<String> tokens = deviceTokenService.getAllTokenForUser(admin.getUserId());
+            adminTokens.addAll(tokens);
+        }
+        for (String token : adminTokens) {
+            fcmService.sendNewOrderNotification(token);
+        }
+
         return convertToResponse(savedOrder);
     }
 

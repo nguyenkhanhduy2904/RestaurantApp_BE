@@ -110,4 +110,15 @@ public class FcmService {
                 )
         );
     }
+    public void sendNewOrderNotification(String fcmToken){
+        sendMessage(
+                fcmToken,
+                new Notification("NEW_ORDER", "A new order just arrived"),
+                Map.of(
+                        "title", "New Order",
+                        "body", "A new order just arrived",
+                        "type", "NEW_ORDER"
+                )
+        );
+    }
 }
