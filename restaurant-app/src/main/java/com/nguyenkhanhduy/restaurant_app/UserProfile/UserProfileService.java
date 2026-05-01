@@ -64,10 +64,7 @@ public class UserProfileService {
         existedProfile.setUserRole(userProfile.getUserRole());
         existedProfile.setStatus(userProfile.getStatus());
 
-
         return userProfileRepository.save(existedProfile);
-
-
 
 
     }

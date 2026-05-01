@@ -94,12 +94,6 @@ public class AuthService {
             );
         }
         else{
-//            UserProfile n = new UserProfile();
-//            n.setUserName(data.getUsername());
-//            n.setUserRole("CUSTOMER");
-//
-//            UserProfile saved = userProfileRepository.save(n);
-
             UserProfile saved = userProfileService.createUserForLocal(data);
 
             UserSignin signin = new UserSignin();
@@ -111,7 +105,28 @@ public class AuthService {
 
             authRepository.save(signin);
             return saved;
+        }
+    }
+    public UserProfile adminCreate(LocalAuth data) {
+        UserSignin userSignin = authRepository.findByUserName(data.getUsername()).orElse(null);
+        if(userSignin!=null){
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Username already exists"
+            );
+        }
+        else{
+            UserProfile saved = userProfileService.createUserForLocal(data);
 
+            UserSignin signin = new UserSignin();
+            signin.setAuthType("ADMIN");
+            signin.setUserName(data.getUsername());
+            signin.setPasswordHashed(PasswordUtil.hash(data.getPassword()));
+
+            signin.setUserProfile(saved);
+
+            authRepository.save(signin);
+            return saved;
         }
     }
 

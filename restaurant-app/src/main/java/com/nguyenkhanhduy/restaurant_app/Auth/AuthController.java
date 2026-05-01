@@ -33,6 +33,12 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success(userProfile));
     }
 
+    @PostMapping("/local/admin-create")
+    public ResponseEntity<ApiResponse<UserProfile>> adminCreate(@RequestBody LocalAuth data){
+        UserProfile userProfile = authService.adminCreate(data);
+        return ResponseEntity.ok(ApiResponse.success(userProfile));
+    }
+
 
 
     @PostMapping("/google")
