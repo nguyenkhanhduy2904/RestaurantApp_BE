@@ -15,6 +15,9 @@ public class VnPayService {
     private final String vnp_ReturnUrl = "https://restaurantapp-be.onrender.com/api/v1/payment/vnpay-return";
 
     public String createPaymentUrl(Integer orderId, double amount) throws Exception {
+        if (vnp_TmnCode == null || vnp_HashSecret == null) {
+            throw new RuntimeException("VNPay config missing (env variables not set)");
+        }
 
         Map<String, String> vnp_Params = new HashMap<>();
 
