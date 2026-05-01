@@ -15,7 +15,7 @@ public class VnPayService {
     private final String vnp_TmnCode = System.getenv("VNP_TMN_CODE");
     private final String vnp_HashSecret = System.getenv("VNP_HASH_SECRET");
     private final String vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    private final String vnp_ReturnUrl = "https://restaurantapp-be.onrender.com/api/v1/payment/vnpay-return";
+    private final String vnp_ReturnUrl = "https://restaurantapp-be.onrender.com/api/v1/order/vnpay-return";
 
     public String createPaymentUrl(Integer orderId, double amount) throws Exception {
         if (vnp_TmnCode == null || vnp_HashSecret == null) {
