@@ -36,6 +36,15 @@ public class UserProfileService {
         UserProfile saved = userProfileRepository.save(n);
         return saved;
     }
+    public UserProfile createAdminLocal(LocalAuth data){
+        UserProfile n = new UserProfile();
+        n.setUserName(data.getUsername());
+        n.setUserRole("ADMIN");
+        n.setStatus("ACTIVE");
+
+        UserProfile saved = userProfileRepository.save(n);
+        return saved;
+    }
 
     public UserProfile createUserForGoogle(String email, String name){
 

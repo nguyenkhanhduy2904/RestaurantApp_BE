@@ -116,15 +116,13 @@ public class AuthService {
             );
         }
         else{
-            UserProfile saved = userProfileService.createUserForLocal(data);
+            UserProfile saved = userProfileService.createAdminLocal(data);
 
             UserSignin signin = new UserSignin();
-            signin.setAuthType("ADMIN");
+            signin.setAuthType("LOCAL");
             signin.setUserName(data.getUsername());
             signin.setPasswordHashed(PasswordUtil.hash(data.getPassword()));
-
             signin.setUserProfile(saved);
-
             authRepository.save(signin);
             return saved;
         }
