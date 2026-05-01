@@ -1,5 +1,7 @@
 package com.nguyenkhanhduy.restaurant_app.Utils;
 
+import org.springframework.stereotype.Service;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.net.URLEncoder;
@@ -7,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Service
 public class VnPayService {
 
     private final String vnp_TmnCode = System.getenv("VNP_TMN_CODE");

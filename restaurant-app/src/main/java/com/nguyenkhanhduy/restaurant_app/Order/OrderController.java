@@ -2,6 +2,7 @@ package com.nguyenkhanhduy.restaurant_app.Order;
 
 
 import com.nguyenkhanhduy.restaurant_app.Response.ApiResponse;
+import com.nguyenkhanhduy.restaurant_app.Utils.VnPayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +15,12 @@ import java.util.Map;
 public class OrderController {
 
     private final OrderService orderService;
+    private final VnPayService vnPayService;
 
     @Autowired
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, VnPayService vnPayService) {
         this.orderService = orderService;
+        this.vnPayService = vnPayService;
     }
 
 
@@ -54,6 +57,19 @@ public class OrderController {
         orderService.handleVnpayIpn(params);
 
         return ResponseEntity.ok("success");
+    }
+
+    @GetMapping("/vnpay-url/{orderId}")
+    public ResponseEntity<?> getVnpayUrl(@PathVariable Integer orderId) throws Exception {
+
+        OrderResponse order = orderService.getOrderById(orderId);
+
+        String paymentUrl = vnPayService.createPaymentUrl(
+                order.getOrderId(),
+                order.getFinalPrice().doubleValue()
+        );
+
+        return ResponseEntity.ok(paymentUrl);
     }
 
 }
