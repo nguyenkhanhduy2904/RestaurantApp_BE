@@ -72,4 +72,22 @@ public class OrderController {
         return ResponseEntity.ok(paymentUrl);
     }
 
+    @GetMapping("/vnpay-return")
+    public ResponseEntity<Void> handleReturn(@RequestParam Map<String, String> params) {
+
+        String orderId = params.get("vnp_TxnRef");
+        String responseCode = params.get("vnp_ResponseCode");
+
+        boolean success = "00".equals(responseCode);
+
+        String redirectUrl =
+                "https://redirect-site-a5wl.onrender.com"
+                        + "?orderId=" + orderId
+                        + "&status=" + (success ? "success" : "failed");
+
+        return ResponseEntity.status(302)
+                .header("Location", redirectUrl)
+                .build();
+    }
+
 }
