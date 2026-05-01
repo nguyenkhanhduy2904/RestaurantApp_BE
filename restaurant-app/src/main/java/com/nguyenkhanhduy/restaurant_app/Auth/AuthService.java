@@ -2,6 +2,7 @@ package com.nguyenkhanhduy.restaurant_app.Auth;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.nguyenkhanhduy.restaurant_app.DeviceToken.DeviceTokenService;
+import com.nguyenkhanhduy.restaurant_app.ResetPassToken.ResetPasswordRequest;
 import com.nguyenkhanhduy.restaurant_app.UserProfile.UserProfile;
 import com.nguyenkhanhduy.restaurant_app.UserProfile.UserProfileRepository;
 import com.nguyenkhanhduy.restaurant_app.UserProfile.UserProfileService;
@@ -12,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Service
 public class AuthService {
@@ -146,5 +149,19 @@ public class AuthService {
         existedSignin.setPasswordHashed(PasswordUtil.hash(request.getNewPass()));
         return "Password changed successfully";
 
+    }
+
+    public void resetPassword(ResetPasswordRequest request) {
+        UserProfile existedProfile = userProfileRepository.findById(request.getUserId()).orElse(null);
+        if(existedProfile!=null){
+            List<UserSignin> existedSignins = authRepository.findByUserProfile(existedProfile);
+            for(UserSignin signin : existedSignins){
+                if("LOCAL".equals(signin.getAuthType())){
+                    signin.setPasswordHashed(PasswordUtil.hash(request.getNewPassword()));
+                    authRepository.save(signin);//probably just find 1 LOCAL, but this is multple login method
+                    break;
+                }
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.nguyenkhanhduy.restaurant_app.Test;
 
+import com.nguyenkhanhduy.restaurant_app.Utils.EmailService;
 import com.nguyenkhanhduy.restaurant_app.Utils.FcmService;
 import com.nguyenkhanhduy.restaurant_app.Utils.GoogleTokenVerifier;
 import com.nguyenkhanhduy.restaurant_app.Utils.Notification;
@@ -16,10 +17,12 @@ import java.util.Map;
 public class TestController {
 
     private final FcmService fcmService;
+    private final EmailService emailService;
 
     @Autowired
-    public TestController(FcmService fcmService) {
+    public TestController(FcmService fcmService, EmailService emailService) {
         this.fcmService = fcmService;
+        this.emailService = emailService;
     }
 
 
@@ -37,18 +40,24 @@ public class TestController {
         );
         return "Sent";
     }
-        @GetMapping("api/v1/test-fcm-fg/{token}")
-        public String testFcmFG(@PathVariable String token){
-            fcmService.sendMessage(
-                    token,
-    //                new Notification("Test Title", "Hello from backend"),
-                    null,
-                    Map.of(
-                            "title", "Test Title",
-                            "body", "Hello from backend",
-                            "type", "TEST"
-                    )
-            );
-            return "Sent";
-        }
+    @GetMapping("api/v1/test-fcm-fg/{token}")
+    public String testFcmFG(@PathVariable String token){
+        fcmService.sendMessage(
+                token,
+//                new Notification("Test Title", "Hello from backend"),
+                null,
+                Map.of(
+                        "title", "Test Title",
+                        "body", "Hello from backend",
+                        "type", "TEST"
+                )
+        );
+        return "Sent";
+    }
+
+    @GetMapping("/email-test")
+    public String testEmail() {
+        emailService.sendOTPEmail("nguyenkhanhduy.29042004tv@gmail.com", "123456");
+        return "Email sent!";
+    }
 }
