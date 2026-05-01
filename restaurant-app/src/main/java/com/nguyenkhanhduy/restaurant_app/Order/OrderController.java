@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "api/v1/order")
@@ -45,6 +46,14 @@ public class OrderController {
     @PutMapping()
     public ResponseEntity<ApiResponse<OrderResponse>> updateOrderStatus(@RequestBody OrderStatusRequest orderStatusRequest){
         return ResponseEntity.ok(ApiResponse.success(orderService.updateOrderStatus(orderStatusRequest)));
+    }
+
+    @GetMapping("/vnpay-ipn")
+    public ResponseEntity<?> handleIpn(@RequestParam Map<String, String> params) {
+
+        orderService.handleVnpayIpn(params);
+
+        return ResponseEntity.ok("success");
     }
 
 }

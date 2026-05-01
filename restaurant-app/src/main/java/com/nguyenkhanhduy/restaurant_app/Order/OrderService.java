@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderService {
@@ -196,5 +197,33 @@ public class OrderService {
 
     private boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
+    }
+
+    public void handleVnpayIpn(Map<String, String> params) {
+
+        String orderId = params.get("vnp_TxnRef");
+        String responseCode = params.get("vnp_ResponseCode");
+
+        Order order = orderRepository.findById(Integer.parseInt(orderId))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        // prevent double processing
+        if (!"PENDING".equals(order.getOrderStatus())) {
+            return;
+        }
+
+        if ("00".equals(responseCode)) {
+//            order.setOrderStatus("PAID");
+            order.setPaymentStatus("PAID");
+
+            // send notification here (only when paid)
+//            notifyAdmin(order);
+
+        } else {
+            order.setOrderStatus("FAILED");
+            order.setPaymentStatus("FAILED");
+        }
+
+        orderRepository.save(order);
     }
 }

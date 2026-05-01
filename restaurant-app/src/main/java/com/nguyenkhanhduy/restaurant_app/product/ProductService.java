@@ -22,7 +22,11 @@ public class ProductService {
     }
 
     public List<ProductDTO> getProductList() {
-        return productRepository.findAll().stream().map(ProductService::convertToDTO).toList();
+        List<ProductDTO> ds = productRepository.findAll().stream().map(ProductService::convertToDTO).toList();
+        for(ProductDTO item : ds){
+            System.out.println(item.getPriceReduction());
+        }
+        return ds;
     }
 
 
@@ -35,7 +39,8 @@ public class ProductService {
                 product.getProductDescription(),
                 product.getProductThumbnailUrl(),
                 product.getCategory().getCategoryId(),
-                product.getStatus()
+                product.getStatus(),
+                product.getPriceReduction()
         );
     }
 
@@ -64,6 +69,8 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Category not found"));
 
         p.setCategory(category);
+        p.setPriceReduction(product.getPriceReduction());
+        p.setStatus(product.getStatus());
 
         return convertToDTO(productRepository.save(p));
     }
@@ -85,6 +92,8 @@ public class ProductService {
         p.setCategory(category);
         p.setProductDescription(product.getProductDescription());
         p.setProductThumbnailUrl(product.getProductThumbnailUrl());
+        p.setStatus(product.getStatus());
+        p.setPriceReduction(product.getPriceReduction());
 
         return convertToDTO(productRepository.save(p));
     }

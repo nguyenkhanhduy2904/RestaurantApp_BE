@@ -11,6 +11,7 @@ public class ProductDTO {
     private String productThumbnailUrl;
     private Integer categoryId;
     private String status;
+    private Float priceReduction;
 
     public String getStatus() {
         return status;
@@ -24,7 +25,7 @@ public class ProductDTO {
 
     }
 
-    public ProductDTO(Integer productId, String productName, BigDecimal productPrice, String productDescription, String productThumbnailUrl, Integer categoryId, String status) {
+    public ProductDTO(Integer productId, String productName, BigDecimal productPrice, String productDescription, String productThumbnailUrl, Integer categoryId, String status, Float priceReduction) {
         this.productId = productId;
         this.productName = productName;
         this.productPrice = productPrice;
@@ -32,9 +33,10 @@ public class ProductDTO {
         this.productThumbnailUrl = productThumbnailUrl;
         this.categoryId = categoryId;
         this.status = status;
+        this.priceReduction = priceReduction;
     }
 
-//    public ProductDTO(Integer productId, String productName, BigDecimal productPrice, String productDescription, String productThumnailUrl, Integer categoryId) {
+    //    public ProductDTO(Integer productId, String productName, BigDecimal productPrice, String productDescription, String productThumnailUrl, Integer categoryId) {
 //        this.productId = productId;
 //        this.productName = productName;
 //        this.productPrice = productPrice;
@@ -89,5 +91,13 @@ public class ProductDTO {
 
     public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public Float getPriceReduction() {
+        return priceReduction;
+    }
+
+    public void setPriceReduction(Float priceReduction) {
+        this.priceReduction = priceReduction;
     }
 }

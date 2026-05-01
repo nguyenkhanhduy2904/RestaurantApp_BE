@@ -23,6 +23,8 @@ public class Product {
     private String productThumbnailUrl;
     @Column(name ="product_status")
     private String status;
+    @Column(name ="product_price_reduction")
+    private Float priceReduction;
 
     public String getStatus() {
         return status;
@@ -106,6 +108,14 @@ public class Product {
 //        this.categoryId = categoryId;
 //    }
 
+
+    public Float getPriceReduction() {
+        return priceReduction;
+    }
+
+    public void setPriceReduction(Float priceReduction) {
+        this.priceReduction = priceReduction;
+    }
 
     public Category getCategory() {
         return category;
