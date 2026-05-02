@@ -52,6 +52,7 @@ public class UserProfileService {
         profile.setUserEmail(email);
         profile.setUserName(name);
         profile.setStatus("ACTIVE");
+        profile.setUserRole("CUSTOMER");
         UserProfile savedProfile = userProfileRepository.save(profile);
         return savedProfile;
     }
