@@ -11,7 +11,7 @@ public class ProductDTO {
     private String productThumbnailUrl;
     private Integer categoryId;
     private String status;
-    private Float priceReduction;
+    private Integer priceReduction;
 
     public String getStatus() {
         return status;
@@ -25,7 +25,7 @@ public class ProductDTO {
 
     }
 
-    public ProductDTO(Integer productId, String productName, BigDecimal productPrice, String productDescription, String productThumbnailUrl, Integer categoryId, String status, Float priceReduction) {
+    public ProductDTO(Integer productId, String productName, BigDecimal productPrice, String productDescription, String productThumbnailUrl, Integer categoryId, String status, Integer priceReduction) {
         this.productId = productId;
         this.productName = productName;
         this.productPrice = productPrice;
@@ -93,11 +93,11 @@ public class ProductDTO {
         this.categoryId = categoryId;
     }
 
-    public Float getPriceReduction() {
+    public Integer getPriceReduction() {
         return priceReduction;
     }
 
-    public void setPriceReduction(Float priceReduction) {
+    public void setPriceReduction(Integer priceReduction) {
         this.priceReduction = priceReduction;
     }
 }

@@ -24,7 +24,7 @@ public class Product {
     @Column(name ="product_status")
     private String status;
     @Column(name ="product_price_reduction")
-    private Float priceReduction;
+    private Integer priceReduction;
 
     public String getStatus() {
         return status;
@@ -109,11 +109,11 @@ public class Product {
 //    }
 
 
-    public Float getPriceReduction() {
+    public Integer getPriceReduction() {
         return priceReduction;
     }
 
-    public void setPriceReduction(Float priceReduction) {
+    public void setPriceReduction(Integer priceReduction) {
         this.priceReduction = priceReduction;
     }
 

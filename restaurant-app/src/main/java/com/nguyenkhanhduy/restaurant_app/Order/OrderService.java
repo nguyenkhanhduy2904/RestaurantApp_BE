@@ -77,7 +77,7 @@ public class OrderService {
             orderDetail.setNote(detail.getNote());
             orderDetail.setQuantity(detail.getQuantity());
             orderDetail.setUnitPrice(product.getProductPrice());
-            orderDetail.setDiscountPercent(0);// TODO: for now
+            orderDetail.setDiscountPercent(product.getPriceReduction());// TODO: for now
 
             BigDecimal unitPrice = product.getProductPrice();
             BigDecimal quantity = BigDecimal.valueOf(detail.getQuantity());
