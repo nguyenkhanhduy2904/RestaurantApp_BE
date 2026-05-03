@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,8 +66,11 @@ public class OrderService {
         orderRepository.save(order);
 
         BigDecimal totalPrice = BigDecimal.ZERO;
+        BigDecimal finalPrice = BigDecimal.ZERO;
+
         int totalProduct =0;
         List<OrderDetail> orderDetailList = new ArrayList<>();
+
 
         for(OrderDetailRequest detail : orderRequest.getOrderDetailRequests()){
             Product product = productRepository.findById(detail.getProductId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
@@ -79,9 +83,21 @@ public class OrderService {
             orderDetail.setUnitPrice(product.getProductPrice());
             orderDetail.setDiscountPercent(product.getPriceReduction());// TODO: for now
 
-            BigDecimal unitPrice = product.getProductPrice();
+            BigDecimal discountPercent = BigDecimal.valueOf(product.getPriceReduction());
+            BigDecimal discountFactor = BigDecimal.ONE.subtract(
+                    discountPercent.divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP)
+            );
             BigDecimal quantity = BigDecimal.valueOf(detail.getQuantity());
+            BigDecimal itemFinalPrice = product.getProductPrice()
+                    .multiply(discountFactor)
+                    .multiply(quantity);
+
+            finalPrice = finalPrice.add(itemFinalPrice);
+
+            BigDecimal unitPrice = product.getProductPrice();
+
             totalPrice = totalPrice.add(unitPrice.multiply(quantity));
+
 
             orderDetailRepository.save(orderDetail);
             orderDetailList.add(orderDetail);
@@ -92,7 +108,10 @@ public class OrderService {
 
         order.setTotalProduct(totalProduct);
         order.setTotalPrice(totalPrice);
-        order.setFinalPrice(totalPrice);
+
+
+
+        order.setFinalPrice(finalPrice);
         order.setOrderDetailList(orderDetailList);
 
 
